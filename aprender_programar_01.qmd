@@ -1,0 +1,280 @@
+---
+title: "Aprendiendo a programar - 01"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+execute:
+  warning: false
+  message: false 
+---
+
+# Git y GitHub
+Clonamos el repo antiguo del club_de_R que ya existía. Rena tiene windows entonces instaló Git Bash (https://gitforwindows.org/) y VSCode (https://code.visualstudio.com/). Fran tiene Mac entonces viene por defecto Git, y ya tenía previamente instalado VSCode.
+
+Esto lo hicimos para poder ir guardando nuestras actualizaciones y versiones en GitHub, a medida que vayamos avanzando en las sesiones de estudio. Nuestro primer objetivo es leer el libro "R for Data Science" de (Wickham, Garret Centigaka-Rundel).
+
+# Libro R for Data Science
+
+## Whole game
+
+En este libro se escribe en Tidyverse principalmente, no en Rbase. Tidyverse tiene nueve parquetes: dplyr, purrr, forcats, lubridate, tidyr, readr, stringr, tibble, ggplot2. Para ver actualizaciones de tidyverse:
+
+```{r}
+#install.packages("tidyverse") 
+library(tidyverse) # para cargar la librería, que incluye los otros 9 paquetes
+# tidyverse_update() # para actualizaciones
+```
+
+### 1 Data visualition
+
+Hay paquetes que vienen con datos disponibles para practicar. Con el paquete ggplot2 se usar para hacer gráficos y también para estéticas.
+
+Si no tienes un paquete instalado, debes hacerlo para poder cargarlo con library().
+
+```{r}
+library(palmerpenguins)
+library(ggthemes)
+
+palmerpenguins::penguins
+```
+
+Para tener una idea de los datos, podemos usar la función gimplse. Nos dice la cantidad filas y columnas que tiene la base de datos, y el tipo de datos de cada columna.También muestra los datos de las primeras filas de cada columna, separados por comas.
+
+```{r}
+glimpse(penguins)
+```
+
+Para graficar se usa ggplot2 y se escribe por capas:
+
+```{r}
+ggplot(
+  data = penguins, # se especifica de donde sacamos los datos para graficar
+  mapping = aes(x = flipper_length_mm, y = body_mass_g) # variables de los ejes
+) +
+  geom_point(aes(color = species, shape = species)) + # tipo de graficos y si es que se quiere color y forma, en base a alguna variable, en este caso la especie
+  geom_smooth(method = "lm") + # agrega línea de tendencia
+  labs( # para agregar nombres y etiques al gráficos
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  ) +
+  scale_color_colorblind() # otra escala de colores
+```
+
+Si quieren datos para practicar está la iniciativa TidyTuesday: https://github.com/rfordatascience/tidytuesday 
+
+También se pueden hacer facetas con facet_wrap():
+
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = species)) +
+  facet_wrap(~island)
+```
+
+Y para guardar los gráficos está gg_save():
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+ggsave(filename = "penguin-plot.png") #esto quedará guardado en el directorio del proyecto
+```
+
+### 2 Workflow: basics
+
+Las variables solo prueden ser letras y pueden estar separadas por "_" o ".", y puede contener números pero no empezar con ellos. 
+
+```{r}
+# 1hola <- "hola"
+hola <- "hola"
+```
+
+### 3 Data transformation
+
+Usan otra libería para tener datos
+
+```{r}
+library(nycflights13)
+flights #base de datos a usar
+```
+
+#### filter()
+
+Para hacer un pipe en mac: shift + command + m
+Para hacer un pipe en windows: shift + control + m
+
+```{r}
+flights %>%  
+  filter(dep_delay > 120) #filtramos todas las mayores a 120 en dep_delay
+
+flights %>%  
+  filter(month == 1 & day == 1) #filtrarmos los meses mayor a 1 y día mayor a 1
+
+flights %>% 
+  filter(month == 1 | month == 2) # "o"
+
+flights %>%  
+  filter(month %in% c(1, 2)) # %n% significa que contiene 1 o 2, es lo mismo que el anterior
+
+flights %>%  
+  filter(month == 1)
+```
+
+#### arrange()
+
+Cambia el orden de las filas segun el valor de las columnas
+
+```{r}
+flights %>%  
+  arrange(year, month, day, dep_time) # ordena de menor a mayor
+
+flights %>%  
+  arrange(desc(dep_delay)) # desc() ordena de mayor a menor
+```
+
+#### distinct()
+
+Encuentra todos las filas únicas en un conjunto de datos
+
+```{r}
+flights %>%  
+  distinct(origin, dest) 
+
+flights %>% 
+  distinct(origin, dest, .keep_all = TRUE) #nos mantiene la info de las otras columnas
+```
+
+#### mutate()
+
+Para crear columnas nuevas
+
+```{r}
+flights %>%  # creamos la columna gain y speed, a partir de otras columnas del tibble
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60
+  )
+
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    hours = air_time / 60,
+    gain_per_hour = gain / hours,
+    .keep = "used" # me deja solo las columnas usadas y las nuevas
+  )
+```
+
+#### select()
+
+Para seleccionar o eliminar columnas
+
+```{r}
+flights %>% 
+  select(year, month, day) 
+
+flights %>%  
+  select(year:day) # selecciona todas las columnas entre year y day, ambas incluso
+
+flights %>% 
+  select(!year:day) # para no seleccionar esas
+
+flights %>%  
+  select(where(is.character))
+
+flights %>% 
+  select(tail_num = tailnum) # se pueden renombrar las variables seleccionadas
+```
+
+#### rename()
+
+Para renombrar nombres de variables
+
+```{r}
+flights %>% 
+  rename(tail_num = tailnum)
+```
+
+#### relocate()
+
+Para mover las variables
+
+```{r}
+flights %>%  
+  relocate(time_hour, air_time)
+
+flights %>% relocate(year:dep_time, .after = time_hour) # para especificar donde ponerlas (.after y .before)
+flights %>% relocate(starts_with("arr"), .before = dep_time)
+```
+
+#### group_by()
+
+Agrupa las filas
+
+```{r}
+flights %>%  
+  group_by(month) # en este caso la estructura de la tabla es la misma, pero está agrupada por grupos, entonces al hacer análisis después es a partir de estos grupos
+```
+
+#### summarize()
+
+```{r}
+flights %>% 
+  group_by(month) %>%  
+  summarize(
+    avg_delay = mean(dep_delay)) # como tiene NAs, el promedio es NA, pero se puede corregir con lo siguiente
+  
+flights %>% 
+  group_by(month) %>%  
+  summarize(avg_delay = mean(dep_delay, na.rm = TRUE))
+
+flights %>%  
+  group_by(month) %>%  
+  summarize(
+    avg_delay = mean(dep_delay, na.rm = TRUE), 
+    n = n()) #numero de datos
+```
+
+#### slice_ functions
+
+- df %>%  slice_head(n = 1) takes the first row from each group.
+- df  %>% slice_tail(n = 1) takes the last row in each group.
+- df %>% slice_min(x, n = 1) takes the row with the smallest value of column x.
+- df %>% slice_max(x, n = 1) takes the row with the largest value of column x.
+- df %>% slice_sample(n = 1) takes one random row.
+
+```{r}
+flights %>% 
+  group_by(dest) %>% 
+  slice_max(arr_delay, n = 1) %>%
+  relocate(dest)
+```
+
+#### ungroup()
+
+Para desagrupar
+
+```{r}
+flights %>%  
+  ungroup()
+```
+
+#### .by()
+
+Para agrupar dentro del código, sin usar group_by()
+
+```{r}
+flights %>% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = month
+  )
+
+flights %>% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = c(origin, dest) # para múltiples variables
+  )
+```
+
