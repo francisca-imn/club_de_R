@@ -1,8 +1,8 @@
 # 🌲 Taller de R
 
-¡Bienvenidas al repositorio de nuestro taller de estudio de R! Este espacio fue creado por **Rena y Fran** (ambas ingenieras forestales) con el objetivo de aprender a programar juntas, automatizar análisis y dominar la ciencia de datos.
+¡Bienvenidas al repositorio de nuestro taller de estudio de R! Este espacio está siendo creado por dos ingenieras forestales con el objetivo de aprender a programar juntas, automatizar análisis y dominar la ciencia de datos.
 
-Nuestro mapa de ruta principal es leer y resolver el libro **"R for Data Science"** (2da Edición) de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund.
+Nuestro mapa de ruta inicial es leer y resolver el libro **"R for Data Science"** (2da Edición) de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund.
 
 ---
 
