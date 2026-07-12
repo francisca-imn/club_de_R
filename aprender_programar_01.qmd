@@ -10,6 +10,7 @@ execute:
 ---
 
 # Git y GitHub
+
 Clonamos el repo antiguo del club_de_R que ya existía. Rena tiene windows entonces instaló Git Bash (https://gitforwindows.org/) y VSCode (https://code.visualstudio.com/). Fran tiene Mac entonces viene por defecto Git, y ya tenía previamente instalado VSCode.
 
 Esto lo hicimos para poder ir guardando nuestras actualizaciones y versiones en GitHub, a medida que vayamos avanzando en las sesiones de estudio. Nuestro primer objetivo es leer el libro "R for Data Science" de (Wickham, Garret Centigaka-Rundel).
@@ -63,7 +64,7 @@ ggplot(
   scale_color_colorblind() # otra escala de colores
 ```
 
-Si quieren datos para practicar está la iniciativa TidyTuesday: https://github.com/rfordatascience/tidytuesday 
+Si quieren datos para practicar está la iniciativa TidyTuesday: https://github.com/rfordatascience/tidytuesday
 
 También se pueden hacer facetas con facet_wrap():
 
@@ -74,6 +75,7 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
 ```
 
 Y para guardar los gráficos está gg_save():
+
 ```{r}
 ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point()
@@ -82,7 +84,7 @@ ggsave(filename = "penguin-plot.png") #esto quedará guardado en el directorio d
 
 ### 2 Workflow: basics
 
-Las variables solo prueden ser letras y pueden estar separadas por "_" o ".", y puede contener números pero no empezar con ellos. 
+Las variables solo prueden ser letras y pueden estar separadas por "\_" o ".", y puede contener números pero no empezar con ellos.
 
 ```{r}
 # 1hola <- "hola"
@@ -100,8 +102,7 @@ flights #base de datos a usar
 
 #### filter()
 
-Para hacer un pipe en mac: shift + command + m
-Para hacer un pipe en windows: shift + control + m
+Para hacer un pipe en mac: shift + command + m Para hacer un pipe en windows: shift + control + m
 
 ```{r}
 flights %>%  
@@ -234,13 +235,13 @@ flights %>%
     n = n()) #numero de datos
 ```
 
-#### slice_ functions
+#### slice\_ functions
 
-- df %>%  slice_head(n = 1) takes the first row from each group.
-- df  %>% slice_tail(n = 1) takes the last row in each group.
-- df %>% slice_min(x, n = 1) takes the row with the smallest value of column x.
-- df %>% slice_max(x, n = 1) takes the row with the largest value of column x.
-- df %>% slice_sample(n = 1) takes one random row.
+- df %\>% slice_head(n = 1) takes the first row from each group.
+- df %\>% slice_tail(n = 1) takes the last row in each group.
+- df %\>% slice_min(x, n = 1) takes the row with the smallest value of column x.
+- df %\>% slice_max(x, n = 1) takes the row with the largest value of column x.
+- df %\>% slice_sample(n = 1) takes one random row.
 
 ```{r}
 flights %>% 
@@ -277,4 +278,139 @@ flights %>%
     .by = c(origin, dest) # para múltiples variables
   )
 ```
+
+###4 Workflow
+
+El estilo de código utilizado en este libro es de Tidyverse: https://style.tidyverse.org/
+
+Existe el paquete 'styler, el cual permite cambiar el estilo de código rápidamente. 
+
+```{r}
+#install.packages("styler")
+library(styler)
+```
+
+###5 Ordenando datos
+
+Nos centraremos en el paquete 'tidyr'(incluido en tidyverse).
+
+```{r}
+library(tidyverse)
+```
+
+####Tidy data
+
+Trabajaremos utilizando el sistema tidy data para ordenar los datos. 
+
+Hay tres reglas interrelacionadas que hacen que un conjunto de datos esté ordenado:
+
+1. Cada variable es una columna; cada columna es una variable.
+2. Cada observación es una fila; cada fila es una observación.
+3. Cada valor es una celda; cada celda es un valor único.
+
+####Alargar datos
+
+tidyr proporciona dos funciones para pivotar datos: pivot_longer() y pivot_wider()
+
+```{r}
+billboard <- billboard
+
+billboard_largo <- billboard %>% 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  ) %>% 
+  mutate(
+    week = parse_number(week) #extrae el primer número de la cadena, ignorando el resto del texto. Esta función es de readr.
+  )
+```
+
+####Muchas variables en los nombres de las columnas
+
+
+```{r}
+who2 <- who2 #Aquí las variables están separadas por un guión bajo: primero está el método de diagnóstico, luego el género y finalmente el rango de edad.
+
+who2_pivoteado <- who2 %>% 
+  pivot_longer(
+    cols = !(country:year),
+    names_to = c("diagnosis", "gender", "age"), 
+    names_sep = "_",
+    values_to = "count"
+  )
+
+#Ahora cada columna es una variable diferente, sp es el método utilizado para el diagnóstico, gender es el género y age el rango de edad. 
+
+```
+
+####Ampliación de datos
+
+Utilizaremos la función pivot_wider()
+
+```{r}
+
+billboard_ancho <- billboard_largo %>% 
+  pivot_wider(names_from = "week",
+              values_from = "rank",
+              names_prefix = "wk")
+
+```
+
+###6 Flujo de trabajo: scripts y proyectos
+
+Hay que distinguir entre "directorio de trabajo", "proyecto de RStudio" y "scripts".
+
+1. Directorio de trabajo: R buscará aquí los archivos que le pides que cargue, y colocará los archivos que le pides que guarde. RStudio muestra su directorio de trabajo actual en la parte superior de la consola.
+
+2. Proyecto de RStudio: Se almacena en un directorio de trabajo determinado, junto a otros archivos, como datos, scripts y gráficos, etc. 
+
+3. Script: Aquí se escribe el código, se generan los gráficos y resultados analíticos, etc.
+
+###7 Importación de datos
+
+Utilizaremos el paquete readr de Tidyverse. Existen distintas funciones para importar datos:
+
+
+```{r}
+# read_csv() Para leer datos en formato csv.
+
+# read_csv2() lee archivos separados por punto y coma. Estos usan ; en lugar de , para separar campos y son comunes en países que usan , como marcador decimal.
+
+# read_tsv() lee archivos delimitados por tabuladores.
+
+# read_delim() lee archivos con cualquier delimitador, intentando adivinar automáticamente el delimitador si no lo especificas.
+
+# read_fwf() lee archivos de ancho fijo. Puede especificar campos por sus anchos con fwf_widths() o por sus posiciones con fwf_positions().
+
+# read_table() lee una variación común de archivos de ancho fijo donde las columnas están separadas por espacios en blanco.
+
+# read_log() lee archivos de registro de estilo Apache.
+
+```
+
+Se utiliza la función clean_names() del paquete janitor para transformar los datos de una manera en que sean fáciles de analizar. 
+
+```{r}
+#install.packages("janitor")
+#janitor::clean_names()
+```
+
+####Escribir un archivo
+Se utiliza la función write_csv() para guardar una tabla en formato csv.
+
+```{r}
+billboard
+write_csv(billboard, "billboard.csv")
+```
+
+###Obtener ayuda
+
+Para mantenerse al día con la comunidad de tidyverse (https://www.tidyverse.org/blog/) y R (https://rweekly.org/)
+
+
+
+
+
 
