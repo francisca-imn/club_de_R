@@ -1,0 +1,115 @@
+---
+title: "Apuntes"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+execute:
+  warning: false
+  message: false 
+---
+
+# visualize
+
+Leer si o si: https://ggplot2-book.org/ (figuras fauna)
+Extensiones ggplot: https://exts.ggplot2.tidyverse.org/gallery/
+
+## 9 layers
+
+```{r}
+library(tidyverse)
+
+mpg # modelos automóviles
+```
+
+displ: Cilindrada del motor de un coche, en litros. Una variable numérica.
+
+hwy: Eficiencia de combustible de un automóvil en carretera, expresada en millas por galón (mpg). Un automóvil con baja eficiencia de combustible consume más combustible que uno con alta eficiencia al recorrer la misma distancia. Variable numérica.
+
+class: Tipo de coche. Una variable categórica.
+
+color, shape, size, alpha
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
+  geom_point()
+
+ggplot(mpg, aes(x = displ, y = hwy, shape = class)) +
+  geom_point()
+
+# Left
+ggplot(mpg, aes(x = displ, y = hwy, size = class)) +
+  geom_point()
+#> Warning: Using size for a discrete variable is not advised.
+
+# Right
+ggplot(mpg, aes(x = displ, y = hwy, alpha = class)) +
+  geom_point()
+#> Warning: Using alpha for a discrete variable is not advised.
+```
+
+Asignar una variable discreta (categórica) no ordenada ( class) a una estética ordenada ( sizeo alpha) generalmente no es una buena idea porque implica una clasificación que en realidad no existe.
+
+![Figuras shape graficos](fig-shapes-1.png)
+
+Más info estética: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html 
+
+### ejercicios
+
+#### Crea un diagrama de dispersión de hwy vs. displ donde los puntos sean triángulos rellenos de color rosa
+
+```{r}
+ggplot(mpg, aes(x = hwy, y = displ))+
+  geom_point(shape = 17, color = "pink")
+```
+
+#### ¿Por qué el siguiente código no generó un gráfico con puntos azules?
+
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = "blue"))
+
+# Por el aes dentro de geom_point(), me tinca que es porque no se, como que el color azul se le asigna a otra cosa que no se ve acá
+
+# Respuesta gemini: El código no genera puntos azules porque colocaste color = "blue" dentro de la función aes(). En ggplot2, todo lo que se escribe dentro de aes() se interpreta como una variable de los datos que se debe mapear (por lo que R crea una categoría ficticia llamada "blue" y le asigna un color por defecto de su paleta, usualmente rojo); para fijar un color estático para todos los puntos, debes escribir color = "blue" fuera de aes(), es decir, directamente como un argumento de geom_point(aes(x = displ, y = hwy), color = "blue").
+```
+
+#### ¿Qué función cumple la 'stroke' estética? ¿Con qué formas trabaja? (Pista: usar ?geom_point)
+
+```{r}
+?geom_point
+
+# Use the stroke aesthetic to modify the width of the border
+
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5)
+
+
+```
+
+#### What happens if you map an aesthetic to something other than a variable name, like aes(color = displ < 5)? Note, you’ll also need to specify x and y.
+
+```{r}
+ggplot(mpg, aes(x = hwy, y = drv))+
+  geom_point(shape = 17, color = "pink")
+
+ggplot(mpg, aes(x = hwy, y = drv, color = displ < 5))+
+  geom_point(shape = 17, color = "pink")
+
+# no veo diferencias...
+
+glimpse(mpg)
+
+ggplot(mpg, aes(x = hwy, y = drv, color = displ < 1))+
+  geom_point(shape = 17, color = "pink")
+
+# Error lo que hice! Va así, gracias GEMINI:
+
+ggplot(mpg) +
+  geom_point(aes(x = displ, y = hwy, color = displ < 5))
+```
+
+### 9.3 Geometric objects
