@@ -106,6 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="layers">9 Layers</h2>
 <section id="y-9.2-aestheric-mappings-and-geometric-objects" class="level3">
 <h3 class="anchored" data-anchor-id="y-9.2-aestheric-mappings-and-geometric-objects">9.1 y 9.2 Aestheric mappings and geometric objects</h3>
+<h2 class="anchored" data-anchor-id="layers">layers</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -185,6 +186,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ejercicios" class="level4">
 <h4 class="anchored" data-anchor-id="ejercicios">ejercicios</h4>
 </section>
+<section id="ejercicios" class="level3">
+<h3 class="anchored" data-anchor-id="ejercicios">ejercicios</h3>
 <section id="crea-un-diagrama-de-dispersión-de-hwy-vs.-displ-donde-los-puntos-sean-triángulos-rellenos-de-color-rosa" class="level4">
 <h4 class="anchored" data-anchor-id="crea-un-diagrama-de-dispersión-de-hwy-vs.-displ-donde-los-puntos-sean-triángulos-rellenos-de-color-rosa">Crea un diagrama de dispersión de hwy vs.&nbsp;displ donde los puntos sean triángulos rellenos de color rosa</h4>
 <div class="cell">
@@ -200,6 +203,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="por-qué-el-siguiente-código-no-generó-un-gráfico-con-puntos-azules" class="level5">
 <h5 class="anchored" data-anchor-id="por-qué-el-siguiente-código-no-generó-un-gráfico-con-puntos-azules">¿Por qué el siguiente código no generó un gráfico con puntos azules?</h5>
+</section>
+<section id="por-qué-el-siguiente-código-no-generó-un-gráfico-con-puntos-azules" class="level4">
+<h4 class="anchored" data-anchor-id="por-qué-el-siguiente-código-no-generó-un-gráfico-con-puntos-azules">¿Por qué el siguiente código no generó un gráfico con puntos azules?</h4>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg) <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy, <span class="at">color =</span> <span class="st">"blue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -217,6 +223,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="qué-función-cumple-la-stroke-estética-con-qué-formas-trabaja-pista-usar-geom_point" class="level5">
 <h5 class="anchored" data-anchor-id="qué-función-cumple-la-stroke-estética-con-qué-formas-trabaja-pista-usar-geom_point">¿Qué función cumple la ‘stroke’ estética? ¿Con qué formas trabaja? (Pista: usar ?geom_point)</h5>
+<section id="qué-función-cumple-la-stroke-estética-con-qué-formas-trabaja-pista-usar-geom_point" class="level4">
+<h4 class="anchored" data-anchor-id="qué-función-cumple-la-stroke-estética-con-qué-formas-trabaja-pista-usar-geom_point">¿Qué función cumple la ‘stroke’ estética? ¿Con qué formas trabaja? (Pista: usar ?geom_point)</h4>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>?geom_point</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -244,6 +252,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="what-happens-if-you-map-an-aesthetic-to-something-other-than-a-variable-name-like-aescolor-displ-5-note-youll-also-need-to-specify-x-and-y." class="level5">
 <h5 class="anchored" data-anchor-id="what-happens-if-you-map-an-aesthetic-to-something-other-than-a-variable-name-like-aescolor-displ-5-note-youll-also-need-to-specify-x-and-y.">What happens if you map an aesthetic to something other than a variable name, like aes(color = displ &lt; 5)? Note, you’ll also need to specify x and y.</h5>
+<section id="what-happens-if-you-map-an-aesthetic-to-something-other-than-a-variable-name-like-aescolor-displ-5-note-youll-also-need-to-specify-x-and-y." class="level4">
+<h4 class="anchored" data-anchor-id="what-happens-if-you-map-an-aesthetic-to-something-other-than-a-variable-name-like-aescolor-displ-5-note-youll-also-need-to-specify-x-and-y.">What happens if you map an aesthetic to something other than a variable name, like aes(color = displ &lt; 5)? Note, you’ll also need to specify x and y.</h4>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> hwy, <span class="at">y =</span> drv))<span class="sc">+</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">17</span>, <span class="at">color =</span> <span class="st">"pink"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
