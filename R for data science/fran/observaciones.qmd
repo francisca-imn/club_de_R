@@ -11,12 +11,12 @@ execute:
 
 # visualize
 
-Leer si o si: https://ggplot2-book.org/ (figuras fauna)
-Extensiones ggplot: https://exts.ggplot2.tidyverse.org/gallery/
+Leer si o si: https://ggplot2-book.org/ (figuras fauna) Extensiones ggplot: https://exts.ggplot2.tidyverse.org/gallery/
 
 ## 9 Layers
 
 ### 9.1 y 9.2 Aestheric mappings and geometric objects
+
 ## 9 layers
 
 ```{r}
@@ -55,9 +55,10 @@ Asignar una variable discreta (categórica) no ordenada ( class) a una estética
 
 ![Figuras shape graficos](fig-shapes-1.png)
 
-Más info estética: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html 
+Más info estética: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html
 
 #### ejercicios
+
 ### ejercicios
 
 #### Crea un diagrama de dispersión de hwy vs. displ donde los puntos sean triángulos rellenos de color rosa
@@ -68,6 +69,7 @@ ggplot(mpg, aes(x = hwy, y = displ))+
 ```
 
 ##### ¿Por qué el siguiente código no generó un gráfico con puntos azules?
+
 #### ¿Por qué el siguiente código no generó un gráfico con puntos azules?
 
 ```{r}
@@ -80,6 +82,7 @@ ggplot(mpg) +
 ```
 
 ##### ¿Qué función cumple la 'stroke' estética? ¿Con qué formas trabaja? (Pista: usar ?geom_point)
+
 #### ¿Qué función cumple la 'stroke' estética? ¿Con qué formas trabaja? (Pista: usar ?geom_point)
 
 ```{r}
@@ -96,8 +99,9 @@ ggplot(mtcars, aes(wt, mpg)) +
 
 ```
 
-##### What happens if you map an aesthetic to something other than a variable name, like aes(color = displ < 5)? Note, you’ll also need to specify x and y.
-#### What happens if you map an aesthetic to something other than a variable name, like aes(color = displ < 5)? Note, you’ll also need to specify x and y.
+##### What happens if you map an aesthetic to something other than a variable name, like aes(color = displ \< 5)? Note, you’ll also need to specify x and y.
+
+#### What happens if you map an aesthetic to something other than a variable name, like aes(color = displ \< 5)? Note, you’ll also need to specify x and y.
 
 ```{r}
 ggplot(mpg, aes(x = hwy, y = drv))+
@@ -148,6 +152,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_smooth(aes(color = drv), show.legend = FALSE)
 ```
+
 Puede ser color solo una geometría por ejemplo:
 
 ```{r}
@@ -170,7 +175,8 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
     shape = "circle open", size = 3, color = "red" # para el borde rojo
   )
 ```
-Otros tipos de geom_():
+
+Otros tipos de geom\_():
 
 ```{r}
 ggplot(mpg, aes(x = hwy)) +
@@ -182,6 +188,7 @@ ggplot(mpg, aes(x = hwy)) +
 ggplot(mpg, aes(x = hwy)) +
   geom_boxplot()
 ```
+
 ggplot2 proporciona más de 40 geoms, pero estos no cubren todos los gráficos posibles que se pueden crear. Si necesita un geom diferente, le recomendamos que primero consulte los paquetes de extensión para ver si alguien más ya lo ha implementado (consulte https://exts.ggplot2.tidyverse.org/gallery/ para ver una muestra).
 
 Por ejemplo, el paquete ggridges ( https://wilkelab.org/ggridges ) es útil para crear gráficos de crestas, que pueden ser útiles para visualizar la densidad de una variable numérica para diferentes niveles de una variable categórica.
@@ -202,6 +209,7 @@ ggplot(mpg, aes(x = hwy)) +
   geom_density() 
   
 ```
+
 El mejor lugar para obtener una descripción general completa de todos los geoms que ofrece ggplot2, así como de todas las funciones del paquete, es la página de referencia: https://ggplot2.tidyverse.org/reference . Para obtener más información sobre cualquier geom en particular, utilice la ayuda (por ejemplo, ?geom_smooth)
 
 #### ejercicios
@@ -216,6 +224,7 @@ ggplot(mpg, aes(x = cty, y = displ)) +
 
 #cty es categorica al parecer pero horrible
 ```
+
 ##### What does show.legend = FALSE do here? What happens if you remove it? Why do you think we used it earlier?
 
 ```{r}
@@ -237,6 +246,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_smooth(aes(color = drv), se = FALSE) #le sacamos el error o la banda de confianza alrededor
 ```
+
 ##### Recreate the R code necessary to generate the following graphs.
 
 ```{r}
@@ -289,6 +299,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point() + 
   facet_grid(drv ~ cyl, scales = "free")
 ```
+
 #### Exercises
 
 ##### What happens if you facet on a continuous variable?
@@ -301,7 +312,8 @@ ggplot(mpg, aes(x = cyl, y = hwy)) +
 
 # igual deja hacerlo pero no se ve muy bien
 ```
-##### What do the empty cells in the plot above with facet_grid(drv ~ cyl) mean? Run the following code. How do they relate to the resulting plot?
+
+##### What do the empty cells in the plot above with facet_grid(drv \~ cyl) mean? Run the following code. How do they relate to the resulting plot?
 
 ```{r}
 ggplot(mpg) + 
@@ -309,6 +321,7 @@ ggplot(mpg) +
 
 # que es "r" no hay dato con "4" y "5"
 ```
+
 ##### Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? Why doesn’t facet_grid() have nrow and ncol arguments?
 
 Número de filas y número de columnas. ¿Por qué facet_grid() no tiene los argumentos nrow y ncol? Porque facet_grid() define una matriz bidimensional estricta basada explícitamente en las variables que le pasas (una variable define las filas y otra las columnas). Por lo tanto, el número de filas y columnas queda determinado automáticamente por la cantidad de categorías únicas que tienen esas variables, no se puede elegir un número arbitrario.
@@ -324,6 +337,7 @@ ggplot(mpg, aes(x = displ)) +
   geom_histogram() +
   facet_grid(. ~ drv)
 ```
+
 ##### Recreate the following plot using facet_wrap() instead of facet_grid(). How do the positions of the facet labels change?
 
 ```{r}
@@ -335,6 +349,7 @@ ggplot(mpg) +
   geom_point(aes(x = displ, y = hwy)) +
   facet_wrap(~drv, ncol = 1, strip.position = "right") # gracias gemini
 ```
+
 ### 9.5 Statistical transformation
 
 Un clásico gráfico de barras, geom_bar() or geom_col(). The following chart displays the total number of diamonds in the diamonds dataset, grouped by cut.
@@ -344,10 +359,9 @@ ggplot(diamonds, aes(x = cut)) +
   geom_bar()
 ```
 
-En el caso anterior no se especifica nada en el eje Y y algunos geom_() calculan automáticamente cosas.
+En el caso anterior no se especifica nada en el eje Y y algunos geom\_() calculan automáticamente cosas.
 
-![Al crear un gráfico de barras, primero comenzamos con los datos brutos, luego los agregamos para contar el número de observaciones en cada barra y, finalmente, asignamos esas variables calculadas a la estética del gráfico.](fig-02-barplots.png)
-Puedes saber qué estadística usa un geom inspeccionando el valor predeterminado del statargumento. Puede cambiar
+![Al crear un gráfico de barras, primero comenzamos con los datos brutos, luego los agregamos para contar el número de observaciones en cada barra y, finalmente, asignamos esas variables calculadas a la estética del gráfico.](fig-02-barplots.png) Puedes saber qué estadística usa un geom inspeccionando el valor predeterminado del statargumento. Puede cambiar
 
 ```{r}
 ?geom_bar # dice "stat = "count", significa que geom_bar() usa stat_count()
@@ -407,9 +421,8 @@ ggplot(diamonds, aes(x = cut, y = carat))+
 # yo entiendo que geom_bar() calcula una estadística, en cambio geom_col() solo grafica la relación entre 2 variables
 
 ```
-Gemini:
-- geom_bar() calcula automáticamente la altura de las barras contando cuántas veces se repite cada categoría (usa stat = "count" por defecto; solo necesita el eje x).
-- geom_col() no cuenta nada; toma los valores tal cual están en tu tabla (usa stat = "identity"; requiere obligatoriamente que le des un eje x y un eje y).
+
+Gemini: - geom_bar() calcula automáticamente la altura de las barras contando cuántas veces se repite cada categoría (usa stat = "count" por defecto; solo necesita el eje x). - geom_col() no cuenta nada; toma los valores tal cual están en tu tabla (usa stat = "identity"; requiere obligatoriamente que le des un eje x y un eje y).
 
 ##### Most geoms and stats come in pairs that are almost always used in concert. Make a list of all the pairs. What do they have in common? (Hint: Read through the documentation.)
 
@@ -417,26 +430,24 @@ Me ayudé con gemini en verdad:
 
 La mayoría de las geometrías (`geoms`) y transformaciones estadísticas (`stats`) vienen en parejas predeterminadas y comparten los mismos datos, argumentos y estéticas (`aes`):
 
-*   **`geom_bar()`** <--> **`stat_count()`** (Gráficos de barras que cuentan filas)
-*   **`geom_col()`** <--> **`stat_identity()`** (Barras con valores numéricos directos)
-*   **`geom_point()`** <--> **`stat_identity()`** (Gráficos de dispersión)
-*   **`geom_smooth()`** <--> **`stat_smooth()`** (Líneas de tendencia)
-*   **`geom_histogram()`** <--> **`stat_bin()`** (Histogramas)
-*   **`geom_density()`** <--> **`stat_density()`** (Curvas de densidad)
-*   **`geom_boxplot()`** <--> **`stat_boxplot()`** (Diagramas de caja)
-*   **`geom_pointrange()`** <--> **`stat_summary()`** (Puntos con barras de error)
+-   **`geom_bar()`** \<--\> **`stat_count()`** (Gráficos de barras que cuentan filas)
+-   **`geom_col()`** \<--\> **`stat_identity()`** (Barras con valores numéricos directos)
+-   **`geom_point()`** \<--\> **`stat_identity()`** (Gráficos de dispersión)
+-   **`geom_smooth()`** \<--\> **`stat_smooth()`** (Líneas de tendencia)
+-   **`geom_histogram()`** \<--\> **`stat_bin()`** (Histogramas)
+-   **`geom_density()`** \<--\> **`stat_density()`** (Curvas de densidad)
+-   **`geom_boxplot()`** \<--\> **`stat_boxplot()`** (Diagramas de caja)
+-   **`geom_pointrange()`** \<--\> **`stat_summary()`** (Puntos con barras de error)
 
-**¿Qué tienen en común?** 
-Están conectados por defecto. Cada `geom` tiene un `stat` asignado para hacer los cálculos matemáticos detrás de escena, y cada `stat` tiene un `geom` asignado para saber cómo dibujar esos resultados en la pantalla.
+**¿Qué tienen en común?** Están conectados por defecto. Cada `geom` tiene un `stat` asignado para hacer los cálculos matemáticos detrás de escena, y cada `stat` tiene un `geom` asignado para saber cómo dibujar esos resultados en la pantalla.
 
-**Resolviendo tu duda: ¿stats es de R base y geom de Tidyverse?**
-No, ambos pertenecen a Tidyverse. Específicamente, tanto las funciones geom_* como las funciones stat_* forman parte del paquete ggplot2 (el cual es uno de los pilares centrales de Tidyverse).
+**Resolviendo tu duda: ¿stats es de R base y geom de Tidyverse?** No, ambos pertenecen a Tidyverse. Específicamente, tanto las funciones geom\_\* como las funciones stat\_\* forman parte del paquete ggplot2 (el cual es uno de los pilares centrales de Tidyverse).
 
 La confusión es súper normal porque la palabra "stats" suena a estadística general, pero en este contexto:
 
-geom_* se enfoca en el dibujo (¿cómo se va a ver? ¿puntos, barras, líneas?).
+geom\_\* se enfoca en el dibujo (¿cómo se va a ver? ¿puntos, barras, líneas?).
 
-stat_* se enfoca en el cálculo (¿qué operaciones matemáticas hay que hacerle a los datos antes de dibujarlos?).
+stat\_\* se enfoca en el cálculo (¿qué operaciones matemáticas hay que hacerle a los datos antes de dibujarlos?).
 
 R base tiene sus propias funciones para hacer gráficos (como plot(), hist() o barplot()), pero no utiliza para nada los conceptos ni los nombres de geom o stat.
 
@@ -466,12 +477,14 @@ ggplot(mpg, aes(x = drv, color = drv)) +
 ggplot(mpg, aes(x = drv, fill = drv)) + 
   geom_bar()
 ```
+
 Y si agregamos una tercera variable:
 
 ```{r}
 ggplot(mpg, aes(x = drv, fill = class)) + 
   geom_bar()
 ```
+
 Position = "identify", colocará cada objeto exactamente donde cae en el contexto del gráfico. Esto no es muy útil para las barras, porque las superpone. Para ver esa superposición, necesitamos hacer que las barras sean ligeramente transparentes.
 
 ```{r}
@@ -482,9 +495,9 @@ ggplot(mpg, aes(x = drv, color = class)) +
   geom_bar(fill = NA, position = "identity")
 ```
 
-- position = "fill". Funciona como apilar, pero hace que cada conjunto de barras apiladas tenga la misma altura. Esto facilita la comparación de proporciones entre grupos.
+-   position = "fill". Funciona como apilar, pero hace que cada conjunto de barras apiladas tenga la misma altura. Esto facilita la comparación de proporciones entre grupos.
 
-- position = "dodge". Coloca los objetos superpuestos directamente uno al lado del otro. Esto facilita la comparación de valores individuales.
+-   position = "dodge". Coloca los objetos superpuestos directamente uno al lado del otro. Esto facilita la comparación de valores individuales.
 
 ```{r}
 # Left
@@ -495,12 +508,14 @@ ggplot(mpg, aes(x = drv, fill = class)) +
 ggplot(mpg, aes(x = drv, fill = class)) + 
   geom_bar(position = "dodge")
 ```
+
 Para puntos, superposición de puntos: Puedes evitar este efecto de cuadrícula configurando el ajuste de posición en "jitter". position = "jitter"Esto añade una pequeña cantidad de ruido aleatorio a cada punto. De esta forma, los puntos se dispersan, ya que es poco probable que dos puntos reciban la misma cantidad de ruido aleatorio.
 
 ```{r}
 ggplot(mpg, aes(x = displ, y = hwy)) + 
   geom_point(position = "jitter")
 ```
+
 Debido a que esta es una operación tan útil, ggplot2 viene con una abreviatura para geom_point(position = "jitter"): geom_jitter().
 
 Para obtener más información sobre un ajuste de posición, consulte la página de ayuda asociada con cada ajuste: ?position_dodge, ?position_fill, ?position_identity, ?position_jitter, y ?position_stack.
@@ -529,6 +544,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 # muestra lo mismo pero es la forma de escribirlo. El primer código no especifica ninguna posición, por lo que ggplot2 aplica la de por defecto ("identity"). El segundo código escribe explícitamente position = "identity".
 ```
+
 ##### ¿Qué parámetros se deben usar para geom_jitter()controlar la cantidad de fluctuación?
 
 pendiente
@@ -545,7 +561,7 @@ pendiente
 
 El sistema de coordenadas predeterminado es el cartesiano, donde las coordenadas x e y actúan de forma independiente para determinar la ubicación de cada punto. Existen otros dos sistemas de coordenadas que resultan útiles en ocasiones.
 
-- 'coord_quickmap()' -> Establece correctamente la relación de aspecto para mapas geográficos. Esto es muy importante si se representan datos espaciales con ggplot2. Más info: https://ggplot2-book.org/maps.html
+-   'coord_quickmap()' -\> Establece correctamente la relación de aspecto para mapas geográficos. Esto es muy importante si se representan datos espaciales con ggplot2. Más info: https://ggplot2-book.org/maps.html
 
 ```{r}
 nz <- map_data("nz")
@@ -558,7 +574,7 @@ ggplot(nz, aes(x = long, y = lat, group = group)) +
   coord_quickmap()
 ```
 
-- 'coord_polar()' -> Utiliza coordenadas polares. Las coordenadas polares revelan una interesante conexión entre un gráfico de barras y un gráfico de Coxcomb.
+-   'coord_polar()' -\> Utiliza coordenadas polares. Las coordenadas polares revelan una interesante conexión entre un gráfico de barras y un gráfico de Coxcomb.
 
 ```{r}
 bar <- ggplot(data = diamonds) + 
@@ -572,6 +588,7 @@ bar <- ggplot(data = diamonds) +
 bar + coord_flip()
 bar + coord_polar()
 ```
+
 #### Exercises
 
 ##### Convierta un gráfico de barras apiladas en un gráfico circular usando coord_polar().
@@ -595,19 +612,10 @@ pendiente
 
 ### Plantilla
 
-ggplot(data = <DATA>) + 
-  <GEOM_FUNCTION>(
-     mapping = aes(<MAPPINGS>),
-     stat = <STAT>, 
-     position = <POSITION>
-  ) +
-  <COORDINATE_FUNCTION> +
-  <FACET_FUNCTION>
-  
+ggplot(data = <DATA>) + <GEOM_FUNCTION>( mapping = aes(<MAPPINGS>), stat = <STAT>, position = <POSITION> ) + <COORDINATE_FUNCTION> + <FACET_FUNCTION>
+
 ### Recursos útiles
 
-https://opensource.posit.co/resources/cheatsheets/
-https://ggplot2.tidyverse.org/
+https://opensource.posit.co/resources/cheatsheets/ https://ggplot2.tidyverse.org/
 
 
-### 9.3 Geometric objects

@@ -237,11 +237,11 @@ flights %>%
 
 #### slice\_ functions
 
-- df %\>% slice_head(n = 1) takes the first row from each group.
-- df %\>% slice_tail(n = 1) takes the last row in each group.
-- df %\>% slice_min(x, n = 1) takes the row with the smallest value of column x.
-- df %\>% slice_max(x, n = 1) takes the row with the largest value of column x.
-- df %\>% slice_sample(n = 1) takes one random row.
+-   df %\>% slice_head(n = 1) takes the first row from each group.
+-   df %\>% slice_tail(n = 1) takes the last row in each group.
+-   df %\>% slice_min(x, n = 1) takes the row with the smallest value of column x.
+-   df %\>% slice_max(x, n = 1) takes the row with the largest value of column x.
+-   df %\>% slice_sample(n = 1) takes one random row.
 
 ```{r}
 flights %>% 
@@ -283,7 +283,7 @@ flights %>%
 
 El estilo de código utilizado en este libro es de Tidyverse: https://style.tidyverse.org/
 
-Existe el paquete 'styler, el cual permite cambiar el estilo de código rápidamente. 
+Existe el paquete 'styler, el cual permite cambiar el estilo de código rápidamente.
 
 ```{r}
 #install.packages("styler")
@@ -300,13 +300,13 @@ library(tidyverse)
 
 ####Tidy data
 
-Trabajaremos utilizando el sistema tidy data para ordenar los datos. 
+Trabajaremos utilizando el sistema tidy data para ordenar los datos.
 
 Hay tres reglas interrelacionadas que hacen que un conjunto de datos esté ordenado:
 
-1. Cada variable es una columna; cada columna es una variable.
-2. Cada observación es una fila; cada fila es una observación.
-3. Cada valor es una celda; cada celda es un valor único.
+1.  Cada variable es una columna; cada columna es una variable.
+2.  Cada observación es una fila; cada fila es una observación.
+3.  Cada valor es una celda; cada celda es un valor único.
 
 ####Alargar datos
 
@@ -328,7 +328,6 @@ billboard_largo <- billboard %>%
 ```
 
 ####Muchas variables en los nombres de las columnas
-
 
 ```{r}
 who2 <- who2 #Aquí las variables están separadas por un guión bajo: primero está el método de diagnóstico, luego el género y finalmente el rango de edad.
@@ -362,16 +361,15 @@ billboard_ancho <- billboard_largo %>%
 
 Hay que distinguir entre "directorio de trabajo", "proyecto de RStudio" y "scripts".
 
-1. Directorio de trabajo: R buscará aquí los archivos que le pides que cargue, y colocará los archivos que le pides que guarde. RStudio muestra su directorio de trabajo actual en la parte superior de la consola.
+1.  Directorio de trabajo: R buscará aquí los archivos que le pides que cargue, y colocará los archivos que le pides que guarde. RStudio muestra su directorio de trabajo actual en la parte superior de la consola.
 
-2. Proyecto de RStudio: Se almacena en un directorio de trabajo determinado, junto a otros archivos, como datos, scripts y gráficos, etc. 
+2.  Proyecto de RStudio: Se almacena en un directorio de trabajo determinado, junto a otros archivos, como datos, scripts y gráficos, etc.
 
-3. Script: Aquí se escribe el código, se generan los gráficos y resultados analíticos, etc.
+3.  Script: Aquí se escribe el código, se generan los gráficos y resultados analíticos, etc.
 
 ###7 Importación de datos
 
 Utilizaremos el paquete readr de Tidyverse. Existen distintas funciones para importar datos:
-
 
 ```{r}
 # read_csv() Para leer datos en formato csv.
@@ -390,15 +388,14 @@ Utilizaremos el paquete readr de Tidyverse. Existen distintas funciones para imp
 
 ```
 
-Se utiliza la función clean_names() del paquete janitor para transformar los datos de una manera en que sean fáciles de analizar. 
+Se utiliza la función clean_names() del paquete janitor para transformar los datos de una manera en que sean fáciles de analizar.
 
 ```{r}
 #install.packages("janitor")
 #janitor::clean_names()
 ```
 
-####Escribir un archivo
-Se utiliza la función write_csv() para guardar una tabla en formato csv.
+####Escribir un archivo Se utiliza la función write_csv() para guardar una tabla en formato csv.
 
 ```{r}
 billboard
@@ -409,8 +406,243 @@ write_csv(billboard, "billboard.csv")
 
 Para mantenerse al día con la comunidad de tidyverse (https://www.tidyverse.org/blog/) y R (https://rweekly.org/)
 
+## Visualize
 
+### 9 Layers (fran)
 
+Recursos útiles: https://ggplot2-book.org/
+Extensiones ggplot: https://exts.ggplot2.tidyverse.org/gallery/
 
+```{r}
+library(tidyverse)
 
+mpg # modelos automóviles
+```
 
+color, shape, size, alpha
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
+  geom_point()
+
+ggplot(mpg, aes(x = displ, y = hwy, shape = class)) +
+  geom_point()
+```
+
+Asignar una variable discreta (categórica) no ordenada (class) a una estética ordenada ( sizeo alpha) generalmente no es una buena idea porque implica una clasificación que en realidad no existe.
+
+![Figuras shape graficos](fig-shapes-1.png)
+
+Más info estética: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html
+
+#### Geometric objects
+
+Formas de linea
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() +
+  geom_smooth(aes(linetype = drv))
+```
+
+geom_smooth() puedes establecer la groupestética en una variable categórica para dibujar varios objetos.
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_smooth(aes(color = drv), show.legend = FALSE)
+```
+
+Puede ser color solo una geometría por ejemplo:
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = class)) + 
+  geom_smooth()
+```
+
+Se pueden hacer filtros y graficar diferente con una misma geometría:
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_point(
+    data = mpg |> filter(class == "2seater"), 
+    color = "red"  # para círculo rojo
+  ) +
+  geom_point(
+    data = mpg |> filter(class == "2seater"), 
+    shape = "circle open", size = 3, color = "red" # para el borde rojo
+  )
+```
+
+Otros tipos de geom_():
+
+```{r}
+ggplot(mpg, aes(x = hwy)) +
+  geom_histogram(binwidth = 2)
+
+ggplot(mpg, aes(x = hwy)) +
+  geom_density()
+
+ggplot(mpg, aes(x = hwy)) +
+  geom_boxplot()
+```
+
+ggplot2 proporciona más de 40 geoms, pero estos no cubren todos los gráficos posibles que se pueden crear. Si necesita un geom diferente, le recomendamos que primero consulte los paquetes de extensión para ver si alguien más ya lo ha implementado (consulte https://exts.ggplot2.tidyverse.org/gallery/ para ver una muestra).
+
+Por ejemplo, el paquete ggridges ( https://wilkelab.org/ggridges ) es útil para crear gráficos de crestas, que pueden ser útiles para visualizar la densidad de una variable numérica para diferentes niveles de una variable categórica.
+
+```{r}
+library(ggridges)
+
+ggplot(mpg, aes(x = hwy, y = drv, fill = drv, color = drv)) +
+  geom_density_ridges(alpha = 0.5, show.legend = FALSE)
+```
+
+El mejor lugar para obtener una descripción general completa de todos los geoms que ofrece ggplot2, así como de todas las funciones del paquete, es la página de referencia: https://ggplot2.tidyverse.org/reference . Para obtener más información sobre cualquier geom en particular, utilice la ayuda (por ejemplo, ?geom_smooth)
+
+#### Facets
+
+```{r}
+# una faceta:
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  facet_wrap(~cyl)
+
+# 2 variables:
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  facet_grid(drv ~ cyl)
+```
+
+By default each of the facets share the same scale and range for x and y axes.
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  facet_grid(drv ~ cyl, scales = "free")
+```
+
+Un clásico gráfico de barras, geom_bar() or geom_col(). The following chart displays the total number of diamonds in the diamonds dataset, grouped by cut.
+
+```{r}
+ggplot(diamonds, aes(x = cut)) + 
+  geom_bar()
+```
+
+En el caso anterior no se especifica nada en el eje Y y algunos geom_() calculan automáticamente cosas.
+
+![Al crear un gráfico de barras, primero comenzamos con los datos brutos, luego los agregamos para contar el número de observaciones en cada barra y, finalmente, asignamos esas variables calculadas a la estética del gráfico.](fig-02-barplots.png) Puedes saber qué estadística usa un geom inspeccionando el valor predeterminado del statargumento. Puede cambiar
+
+```{r}
+?geom_bar # dice "stat = "count", significa que geom_bar() usa stat_count()
+
+diamonds |>
+  count(cut) |>
+  ggplot(aes(x = cut, y = n)) +
+  geom_bar(stat = "identity")
+
+# grafico de proporciones:
+ggplot(diamonds, aes(x = cut, y = after_stat(prop), group = 1)) + 
+  geom_bar()
+```
+
+Es posible que desee resaltar la transformación estadística en su código. Por ejemplo, podría usar stat_summary(), que resume los valores de y para cada valor único de x, para destacar el resumen que está calculando:
+
+```{r}
+ggplot(diamonds) + 
+  stat_summary(
+    aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+#### Position adjustments
+
+Colores barras:
+
+```{r}
+ggplot(mpg, aes(x = drv, color = drv)) + 
+  geom_bar()
+
+ggplot(mpg, aes(x = drv, fill = drv)) + 
+  geom_bar()
+```
+
+Y si agregamos una tercera variable:
+
+```{r}
+ggplot(mpg, aes(x = drv, fill = class)) + 
+  geom_bar()
+```
+
+Position = "identify", colocará cada objeto exactamente donde cae en el contexto del gráfico. Esto no es muy útil para las barras, porque las superpone. Para ver esa superposición, necesitamos hacer que las barras sean ligeramente transparentes.
+
+```{r}
+ggplot(mpg, aes(x = drv, fill = class)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+
+ggplot(mpg, aes(x = drv, color = class)) + 
+  geom_bar(fill = NA, position = "identity")
+```
+
+-   position = "fill". Funciona como apilar, pero hace que cada conjunto de barras apiladas tenga la misma altura. Esto facilita la comparación de proporciones entre grupos.
+
+-   position = "dodge". Coloca los objetos superpuestos directamente uno al lado del otro. Esto facilita la comparación de valores individuales.
+
+```{r}
+ggplot(mpg, aes(x = drv, fill = class)) + 
+  geom_bar(position = "fill")
+
+ggplot(mpg, aes(x = drv, fill = class)) + 
+  geom_bar(position = "dodge")
+```
+
+Para puntos, superposición de puntos: Puedes evitar este efecto de cuadrícula configurando el ajuste de posición en "jitter". position = "jitter"Esto añade una pequeña cantidad de ruido aleatorio a cada punto. De esta forma, los puntos se dispersan, ya que es poco probable que dos puntos reciban la misma cantidad de ruido aleatorio.
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(position = "jitter")
+```
+
+Debido a que esta es una operación tan útil, ggplot2 viene con una abreviatura para geom_point(position = "jitter"): geom_jitter().
+
+Para obtener más información sobre un ajuste de posición, consulte la página de ayuda asociada con cada ajuste: ?position_dodge, ?position_fill, ?position_identity, ?position_jitter, y ?position_stack.
+
+#### Sistema de coordenadas
+
+El sistema de coordenadas predeterminado es el cartesiano, donde las coordenadas x e y actúan de forma independiente para determinar la ubicación de cada punto. Existen otros dos sistemas de coordenadas que resultan útiles en ocasiones.
+
+-   'coord_quickmap()' -> Establece correctamente la relación de aspecto para mapas geográficos. Esto es muy importante si se representan datos espaciales con ggplot2. Más info: https://ggplot2-book.org/maps.html
+
+```{r}
+nz <- map_data("nz")
+
+ggplot(nz, aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill = "white", color = "black")
+
+ggplot(nz, aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill = "white", color = "black") +
+  coord_quickmap()
+```
+
+-   'coord_polar()' -> Utiliza coordenadas polares. Las coordenadas polares revelan una interesante conexión entre un gráfico de barras y un gráfico de Coxcomb.
+
+```{r}
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = clarity, fill = clarity), 
+    show.legend = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1)
+
+bar + coord_flip()
+bar + coord_polar()
+```
+
+### 10 Exploratory data analysis (rena)
